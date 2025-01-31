@@ -25,7 +25,6 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 import org.apache.fontbox.ttf.CmapLookup;
 import org.apache.fontbox.ttf.HeaderTable;
@@ -35,6 +34,7 @@ import org.apache.fontbox.ttf.PostScriptTable;
 import org.apache.fontbox.ttf.TTFParser;
 import org.apache.fontbox.ttf.TTFSubsetter;
 import org.apache.fontbox.ttf.TrueTypeFont;
+import org.apache.fontbox.util.IntIntMap;
 import org.apache.pdfbox.cos.COSDictionary;
 import org.apache.pdfbox.cos.COSName;
 import org.apache.pdfbox.pdmodel.PDDocument;
@@ -333,7 +333,7 @@ abstract class TrueTypeEmbedder implements Subsetter
         }
 
         // calculate deterministic tag based on the chosen subset
-        Map<Integer, Integer> gidToCid = subsetter.getGIDMap();
+        IntIntMap gidToCid = subsetter.getGIDMap();
         String tag = getTag(gidToCid);
         subsetter.setPrefix(tag);
 
@@ -358,12 +358,12 @@ abstract class TrueTypeEmbedder implements Subsetter
      * Rebuild a font subset.
      */
     protected abstract void buildSubset(InputStream ttfSubset, String tag,
-                                     Map<Integer, Integer> gidToCid) throws IOException;
+                                     IntIntMap gidToCid) throws IOException;
 
     /**
      * Returns an uppercase 6-character unique tag for the given subset.
      */
-    public String getTag(Map<Integer, Integer> gidToCid)
+    public String getTag(IntIntMap gidToCid)
     {
         // deterministic
         long num = gidToCid.hashCode();

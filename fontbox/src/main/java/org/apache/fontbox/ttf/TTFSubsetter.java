@@ -25,7 +25,6 @@ import java.io.OutputStream;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.util.Calendar;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -39,6 +38,7 @@ import java.util.TreeMap;
 import java.util.TreeSet;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.apache.fontbox.util.IntIntMap;
 
 /**
  * Subsetter for TrueType (TTF) fonts.
@@ -142,11 +142,11 @@ public final class TTFSubsetter
      * 
      * @throws IOException if the font data could not be read
      */
-    public Map<Integer, Integer> getGIDMap() throws IOException
+    public IntIntMap getGIDMap() throws IOException
     {
         addCompoundReferences();
 
-        Map<Integer, Integer> newToOld = new HashMap<>();
+        IntIntMap newToOld = new IntIntMap(glyphIds.size());
         int newGID = 0;
         for (int oldGID : glyphIds)
         {

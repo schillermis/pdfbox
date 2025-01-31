@@ -25,6 +25,7 @@ import java.util.List;
 import java.util.Map;
 import org.apache.fontbox.ttf.HorizontalMetricsTable;
 import org.apache.fontbox.ttf.TrueTypeFont;
+import org.apache.fontbox.util.IntIntMap;
 import org.apache.pdfbox.cos.COSArray;
 import org.apache.pdfbox.cos.COSDictionary;
 import org.apache.pdfbox.cos.COSName;
@@ -125,7 +126,7 @@ final class PDTrueTypeFontEmbedder extends TrueTypeEmbedder
 
     @Override
     protected void buildSubset(InputStream ttfSubset, String tag,
-                            Map<Integer, Integer> gidToCid) throws IOException
+                            IntIntMap gidToCid) throws IOException
     {
         // use PDType0Font instead
         throw new UnsupportedOperationException();
