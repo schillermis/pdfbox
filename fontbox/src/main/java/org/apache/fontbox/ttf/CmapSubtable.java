@@ -241,11 +241,12 @@ public class CmapSubtable implements CmapLookup
     {
         int maxGlyphId = 0;
         long nbGroups = data.readUnsignedInt();
-        glyphIdToCharacterCode = newGlyphIdToCharacterCode(numGlyphs);
+        glyphIdToCharacterCode = null;
         characterCodeToGlyphId = new IntIntMap(numGlyphs);
         if (numGlyphs == 0)
         {
             LOG.warn("subtable has no glyphs");
+            glyphIdToCharacterCode = newGlyphIdToCharacterCode(0);
             return;
         }
         for (long i = 0; i < nbGroups; ++i)
