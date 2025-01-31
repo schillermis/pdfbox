@@ -116,28 +116,105 @@ public final class IntIntMap
   }
 
   /**
-   * Create an iterator object to iterate over all keys in this map. The
+   * Checks if this map contains a given key
+   *
+   * @param key The key to check
+   *
+   * @return true if this map contains the key, false if not
+   */
+  public boolean containsKey(int key)
+  {
+    return (Arrays.binarySearch(keys, 0, size, key) >= 0);
+  }
+
+  /**
+   * Will return the last key in this map. Since the keys in this map are always
+   * sorted, this will return the key with the highest value. If the map is
+   * empty, the method will return Integer.MIN_VALUE.
+   *
+   * @return The value of the last key or Integer.MIN_VALUE if map is empty
+   */
+  public int lastKey()
+  {
+    if (isEmpty()) {
+      return Integer.MIN_VALUE;
+    }
+
+    return keys[size - 1];
+  }
+
+  /**
+   * Returns the hash code value for this map.  The hash code of a map is
+   * defined to be the sum of the hash codes of each entry.
+   * 
+   * @implSpec: The implementation tries to emulate the hashCode logic of the
+   * Map class
+   * 
+   * @return The hash code
+   */
+  @Override
+  public int hashCode()
+  {
+    int hash = 0;
+    
+    for (int idx = 0; idx < size; idx++) {
+      hash += keys[idx] ^ values[idx];
+    }
+    return hash;
+  }
+
+  @Override
+  public boolean equals(Object obj)
+  {
+    if (this == obj) {
+      return true;
+    }
+    if (obj == null) {
+      return false;
+    }
+    if (getClass() != obj.getClass()) {
+      return false;
+    }
+    final IntIntMap other = (IntIntMap) obj;
+    if (this.size != other.size) {
+      return false;
+    }
+    
+    for (int idx = 0; idx < size; idx++) {
+      if (keys[idx] != other.keys[idx]) {
+        return false;
+      }
+      if (values[idx] != other.values[idx]) {
+        return false;
+      }
+    }
+    
+    return true;
+  }
+  
+  /**
+   * Create an iterator object to iterate over all entries in this map. The
    * returned iterator will interact directly with the data in this object. It
    * is therefore not allowed to change the map while the returned iterator is
    * in use. Doing so will cause the iterator to throw
    * {@code ConcurrentModificationException}s.
    *
-   * Note: The iterator will iterate over the keys in an ordered fashion from
+   * Note: The iterator will iterate over the entries in an ordered fashion from
    * smallest to biggest key.
    *
-   * @return An iterator to iterate over the keys in the map.
+   * @return An iterator to iterate over the entries in the map.
    */
-  public KeyIterator keyIterator()
+  public EntryIterator entryIterator()
   {
-    return new KeyIterator(changeCounter);
+    return new EntryIterator(changeCounter);
   }
 
   /**
-   * Base class for the key and value iterator. Stores the current change
+   * Iterator to iterate over all entries in this map. Stores the current change
    * counter of the IntMap and provides a method to check if the counter
    * changed. Also implements the hasNext() method.
    */
-  public final class KeyIterator
+  public final class EntryIterator
   {
     /**
      * A copy of the change counter at the time of the iterator creation. If the
@@ -151,10 +228,10 @@ public final class IntIntMap
      */
     private int currentIdx;
 
-    KeyIterator(int changeCounter)
+    EntryIterator(int changeCounter)
     {
       this.changeCheckpoint = changeCounter;
-      this.currentIdx = 0;
+      this.currentIdx = -1;
     }
 
     /**
@@ -165,18 +242,34 @@ public final class IntIntMap
     public boolean hasNext()
     {
       checkIfModified();
-      return currentIdx < size;
+      return (currentIdx+1) < size;
     }
 
     /**
-     * @return the next element
+     * Proceed to the next entry. Use the getKey and getValue methods to get
+     * the current values.
+     *
+     * @exception ConcurrentModificationException If the underlying map was changed
+     *                                            since the iterator was created
+     * @exception NoSuchElementException If the iterator was pointing to the last element
      */
-    public int next()
+    public void next()
     {
       checkIfModified();
+      currentIdx++;
       checkIfIndexIsValid();
+    }
 
-      return keys[currentIdx++];
+    public int getKey()
+    {
+      checkIfModified();
+      return keys[currentIdx];
+    }
+
+    public int getValue()
+    {
+      checkIfModified();
+      return values[currentIdx];
     }
 
     void checkIfModified()
