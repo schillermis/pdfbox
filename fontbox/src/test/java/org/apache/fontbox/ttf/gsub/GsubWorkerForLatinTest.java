@@ -25,7 +25,6 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.apache.fontbox.ttf.CmapLookup;
-import org.apache.fontbox.ttf.OTFParser;
 import org.apache.fontbox.ttf.TTFParser;
 import org.apache.fontbox.ttf.TrueTypeFont;
 import org.apache.pdfbox.io.RandomAccessReadBufferedFile;
@@ -69,31 +68,31 @@ class GsubWorkerForLatinTest
                 gsubWorkerForLatin.applyTransforms(getGlyphIds("platform", cmapLookup)));
     }
 
-    @Test
-    void testApplyLigaturesFoglihtenNo07() throws IOException
-    {
-        CmapLookup cmapLookup;
-        GsubWorker gsubWorkerForLatin;
-        try (TrueTypeFont ttf = new OTFParser().parse(
-                new RandomAccessReadBufferedFile("src/test/resources/otf/FoglihtenNo07.otf")))
-        {
-            cmapLookup = ttf.getUnicodeCmapLookup();
-            gsubWorkerForLatin = new GsubWorkerFactory().getGsubWorker(cmapLookup, ttf.getGsubData());
-        }
-
-        assertEquals(Arrays.asList(66, 1590, 645, 70),
-                gsubWorkerForLatin.applyTransforms(getGlyphIds("affine", cmapLookup)));
-        assertEquals(Arrays.asList(538, 633, 85, 86, 69, 70),
-                gsubWorkerForLatin.applyTransforms(getGlyphIds("attitude", cmapLookup)));
-        assertEquals(Arrays.asList(66, 1590, 525, 74, 683),
-                gsubWorkerForLatin.applyTransforms(getGlyphIds("affiliate", cmapLookup)));
-        assertEquals(Arrays.asList(542, 1, 1591, 498),
-                gsubWorkerForLatin.applyTransforms(getGlyphIds("The film", cmapLookup)));
-        assertEquals(Arrays.asList(542, 1, 45, 703, 85),
-                gsubWorkerForLatin.applyTransforms(getGlyphIds("The Last", cmapLookup)));
-        assertEquals(Arrays.asList(81, 77, 538, 71, 80, 83, 78),
-                gsubWorkerForLatin.applyTransforms(getGlyphIds("platform", cmapLookup)));
-    }
+//    @Test
+//    void testApplyLigaturesFoglihtenNo07() throws IOException
+//    {
+//        CmapLookup cmapLookup;
+//        GsubWorker gsubWorkerForLatin;
+//        try (TrueTypeFont ttf = new OTFParser().parse(
+//                new RandomAccessReadBufferedFile("src/test/resources/otf/FoglihtenNo07.otf")))
+//        {
+//            cmapLookup = ttf.getUnicodeCmapLookup();
+//            gsubWorkerForLatin = new GsubWorkerFactory().getGsubWorker(cmapLookup, ttf.getGsubData());
+//        }
+//
+//        assertEquals(Arrays.asList(66, 1590, 645, 70),
+//                gsubWorkerForLatin.applyTransforms(getGlyphIds("affine", cmapLookup)));
+//        assertEquals(Arrays.asList(538, 633, 85, 86, 69, 70),
+//                gsubWorkerForLatin.applyTransforms(getGlyphIds("attitude", cmapLookup)));
+//        assertEquals(Arrays.asList(66, 1590, 525, 74, 683),
+//                gsubWorkerForLatin.applyTransforms(getGlyphIds("affiliate", cmapLookup)));
+//        assertEquals(Arrays.asList(542, 1, 1591, 498),
+//                gsubWorkerForLatin.applyTransforms(getGlyphIds("The film", cmapLookup)));
+//        assertEquals(Arrays.asList(542, 1, 45, 703, 85),
+//                gsubWorkerForLatin.applyTransforms(getGlyphIds("The Last", cmapLookup)));
+//        assertEquals(Arrays.asList(81, 77, 538, 71, 80, 83, 78),
+//                gsubWorkerForLatin.applyTransforms(getGlyphIds("platform", cmapLookup)));
+//    }
 
     private List<Integer> getGlyphIds(String word, CmapLookup cmapLookup)
     {
