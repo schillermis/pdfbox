@@ -24,13 +24,13 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 import org.apache.fontbox.ttf.CmapLookup;
 
 import org.apache.fontbox.ttf.OS2WindowsMetricsTable;
 import org.apache.fontbox.ttf.TTFParser;
 import org.apache.fontbox.ttf.TrueTypeFont;
+import org.apache.fontbox.util.IntIntMap;
 
 import org.apache.pdfbox.Loader;
 import org.apache.pdfbox.cos.COSArray;
@@ -667,7 +667,7 @@ class TestFontEmbedding
         }
 
         @Override
-        protected void buildSubset(InputStream ttfSubset, String tag, Map<Integer, Integer> gidToCid)
+        protected void buildSubset(InputStream ttfSubset, String tag, IntIntMap gidToCid)
                 throws IOException
         {
             // no-op.  Need to define method to extend abstract class, but

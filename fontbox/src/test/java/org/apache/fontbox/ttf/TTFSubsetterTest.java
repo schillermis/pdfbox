@@ -22,7 +22,7 @@ import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map.Entry;
+import org.apache.fontbox.util.IntIntMap;
 import org.apache.fontbox.util.autodetect.FontFileFinder;
 import org.apache.pdfbox.io.RandomAccessReadBuffer;
 import org.apache.pdfbox.io.RandomAccessReadBufferedFile;
@@ -188,10 +188,11 @@ class TTFSubsetterTest
         {
             assertEquals(6, subset.getNumberOfGlyphs());
 
-            for (Entry<Integer, Integer> entry : ttfSubsetter.getGIDMap().entrySet())
-            {
-                Integer newGID = entry.getKey();
-                Integer oldGID = entry.getValue();
+            IntIntMap.EntryIterator entryIterator = ttfSubsetter.getGIDMap().entryIterator();
+            while (entryIterator.hasNext()) {
+                entryIterator.next();
+                Integer newGID = entryIterator.getKey();
+                Integer oldGID = entryIterator.getValue();
                 assertEquals(full.getAdvanceWidth(oldGID), subset.getAdvanceWidth(newGID));
                 assertEquals(full.getHorizontalMetrics().getLeftSideBearing(oldGID),
                         subset.getHorizontalMetrics().getLeftSideBearing(newGID));
