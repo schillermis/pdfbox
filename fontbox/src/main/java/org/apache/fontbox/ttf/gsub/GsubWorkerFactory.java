@@ -49,10 +49,10 @@ public class GsubWorkerFactory
             return new GsubWorkerForDevanagari(cmapLookup, gsubData);
         case GUJARATI:
             return new GsubWorkerForGujarati(cmapLookup, gsubData);
-        case LATIN:
-            return new GsubWorkerForLatin(gsubData);
-        case DFLT:
-            return new GsubWorkerForDflt(gsubData);
+//        case LATIN:
+//            return new GsubWorkerForLatin(gsubData);
+//        case DFLT:
+//            return new GsubWorkerForDflt(gsubData);
         default:
             return new DefaultGsubWorker();
         }

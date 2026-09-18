@@ -37,8 +37,8 @@ class DefaultGsubWorker implements GsubWorker
     @Override
     public List<Integer> applyTransforms(List<Integer> originalGlyphIds)
     {
-        LOG.warn(getClass().getSimpleName() + " class does not perform actual GSUB substitutions. "
-                + "Perhaps the selected language is not yet supported by the FontBox library.");
+        // LOG.warn(getClass().getSimpleName() + " class does not perform actual GSUB substitutions. "
+        //         + "Perhaps the selected language is not yet supported by the FontBox library.");
         // Make the result read-only to prevent accidental modifications of the source list
         return Collections.unmodifiableList(originalGlyphIds);
     }
