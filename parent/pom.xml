@@ -26,6 +26,15 @@
     <version>39</version>
     <relativePath />
   </parent>
+  
+  <distributionManagement>
+    <!-- use the following if you're not using a snapshot version. -->
+    <repository>
+      <id>nexusdeploy_release</id>
+      <name>Schiller Release Repository</name>
+      <url>https://nexus.schiller.ch/repository/releases/</url>
+    </repository>
+  </distributionManagement>
 
   <groupId>org.apache.pdfbox</groupId>
   <artifactId>pdfbox-parent</artifactId>
