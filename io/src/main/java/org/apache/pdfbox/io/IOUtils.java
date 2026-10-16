@@ -258,7 +258,10 @@ public final class IOUtils
             try
             {
                 // *** sun.misc.Unsafe unmapping (Java 9+) ***
-                final Class<?> unsafeClass = Class.forName("sun.misc.Unsafe");
+                // use the system class loader, as module based class loaders (e.g. WildFly/JBoss
+                // Modules) may hide the jdk.unsupported module from the deployment
+                final Class<?> unsafeClass = Class.forName("sun.misc.Unsafe", false,
+                        ClassLoader.getSystemClassLoader());
                 // first check if Unsafe has the right method, otherwise we can give up
                 // without doing any security critical stuff:
                 final MethodHandle unmapper = lookup.findVirtual(unsafeClass, "invokeCleaner",
@@ -277,6 +280,12 @@ public final class IOUtils
             }
             catch (ReflectiveOperationException | RuntimeException e)
             {
+                if (!System.getProperty("java.specification.version", "").startsWith("1."))
+                {
+                    // the Java 8 fallback can't work on Java 9+ as java.nio isn't open,
+                    // report the original cause instead
+                    throw e;
+                }
                 // *** sun.misc.Cleaner unmapping (Java 8) ***
                 final Class<?> directBufferClass = Class.forName("java.nio.DirectByteBuffer");
 
