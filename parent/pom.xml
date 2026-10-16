@@ -39,7 +39,7 @@
   <groupId>org.apache.pdfbox</groupId>
   <artifactId>pdfbox-parent</artifactId>
   <packaging>pom</packaging>
-  <version>3.0.8.1-schiller</version>
+  <version>3.0.8.2-schiller</version>
 
   <name>Apache PDFBox parent</name>
   <inceptionYear>2002</inceptionYear>
